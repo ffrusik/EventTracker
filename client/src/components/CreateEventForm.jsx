@@ -4,6 +4,7 @@ import z from "zod";
 
 import { createEvent } from "../util/http";
 
+// Define Zod schemas for validation
 const eventSchema = z.object({
   name: z.string().min(1).max(255),
 });

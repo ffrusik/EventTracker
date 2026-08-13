@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./App.css";
 
@@ -8,10 +9,14 @@ import Events from "./pages/Events";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 
+import { tokenLoader, checkAuthLoader } from "./util/auth";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    id: "root",
+    loader: tokenLoader,
     children: [
       {
         index: true,
@@ -20,6 +25,7 @@ const router = createBrowserRouter([
       {
         path: "events",
         element: <Events />,
+        loader: checkAuthLoader,
       },
       {
         path: "signup",
@@ -33,6 +39,12 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
