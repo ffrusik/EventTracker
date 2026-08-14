@@ -1,6 +1,6 @@
 import z from "zod";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router";
 
 import { login } from "../util/http";
@@ -13,17 +13,21 @@ const credentialsSchema = z.object({
 
 export default function Login() {
   const navigate = useNavigate();
-
+  const queryClient = useQueryClient();
   const [errors, setErrors] = useState([]);
 
   const mutation = useMutation({
     mutationFn: login,
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["user"] });
+
       navigate("/events");
     },
   });
 
   function loginAction(formData) {
+    setErrors([]);
+
     const email = formData.get("email")?.trim();
     const password = formData.get("password")?.trim();
 
@@ -89,7 +93,7 @@ export default function Login() {
       {mutation.isError && (
         <div className="mt-2">
           <p className="text-red-500">
-            {mutation.error.message || "An error occurred."}
+            {mutation.error.info?.message || mutation.error.message}
           </p>
         </div>
       )}

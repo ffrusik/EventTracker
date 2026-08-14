@@ -33,6 +33,8 @@ export default function Signup() {
   });
 
   function signUpAction(formData) {
+    setErrors([]);
+
     const email = formData.get("email")?.trim();
     const password = formData.get("password")?.trim();
     const confirmPassword = formData.get("confirmPassword")?.trim();
@@ -107,7 +109,9 @@ export default function Signup() {
       </form>
       {mutation.isError && (
         <div className="mt-2">
-          <p className="text-red-500">{mutation.error.message}</p>
+          <p className="text-red-500">
+            {mutation.error.info?.message || mutation.error.message}
+          </p>
         </div>
       )}
       {errors.length > 0 && (

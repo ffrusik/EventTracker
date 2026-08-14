@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import z from "zod";
 
@@ -11,6 +11,8 @@ const eventSchema = z.object({
 
 export default function CreateEventForm({ refDialog }) {
   const [errors, setErrors] = useState([]);
+
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: createEvent,
@@ -33,6 +35,8 @@ export default function CreateEventForm({ refDialog }) {
 
     mutation.mutate(result.data.name, {
       onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["events"] });
+
         refDialog.current.close();
       },
     });

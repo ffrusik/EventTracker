@@ -20,6 +20,36 @@ export async function createEvent(eventName) {
   return event;
 }
 
+export async function getEvents() {
+  return await fetch("/api/events", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then((res) => res.json());
+}
+
+export async function getEventInfo(eventId) {
+  return await fetch(`/api/events/${eventId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then((res) => res.json());
+}
+
+export async function deleteEvent(eventId) {
+  return await fetch(`/api/events/${eventId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  }).then((res) => res.json());
+}
+
 export async function signUp({ email, password, confirmPassword }) {
   const response = await fetch("/api/register", {
     method: "POST",
@@ -60,4 +90,26 @@ export async function login({ email, password }) {
   const { token } = await response.json();
 
   localStorage.setItem("token", token);
+}
+
+export async function me() {
+  const response = await fetch("/api/me", {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
+  if (response.status === 401) {
+    return null;
+  }
+
+  if (!response.ok) {
+    const error = new Error("Failed to fetch user data");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  return response.json();
 }

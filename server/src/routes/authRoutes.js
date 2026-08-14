@@ -1,9 +1,12 @@
 import express from "express";
 import pg from "pg";
 
-import { login, register } from "../controllers/authController.js";
+import { login, register, me } from "../controllers/authController.js";
+import { authenticateToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
+
+router.get("/me", authenticateToken, me);
 
 router.post("/login", login);
 
