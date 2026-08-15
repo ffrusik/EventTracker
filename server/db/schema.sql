@@ -16,6 +16,8 @@ CREATE TABLE events_info (
     id SERIAL PRIMARY KEY,
     event_id INTEGER NOT NULL REFERENCES events(id) ON DELETE CASCADE,
     info TEXT NOT NULL,
+    source VARCHAR(255) NOT NULL,
+    url TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
