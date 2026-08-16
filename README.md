@@ -5,23 +5,14 @@ A full-stack event monitoring platform built with **React, Node.js, Express, and
 ## Features
 
 * User registration and login
-
 * JWT-based authentication
-
 * Protected routes
-
 * Secure password hashing with bcrypt
-
 * Input validation with Zod
-
 * Create and manage events
-
 * RSS feed aggregation
-
 * Automatic detection of new content
-
 * Matching new content against user-defined events
-
 * PostgreSQL data persistence
 
 ## Tech Stack
