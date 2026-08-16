@@ -43,7 +43,7 @@ DB_NAME=your_db_name
 DB_USER=your_database_user
 DB_PASSWORD=your_database_password
 
-JWT_SECRET=your jwt secret
+JWT_SECRET=your_jwt_secret
 ```
 
 Start the development server:
