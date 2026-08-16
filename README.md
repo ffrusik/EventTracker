@@ -18,19 +18,12 @@ A full-stack event monitoring platform built with **React, Node.js, Express, and
 ## Tech Stack
 
 * React
-
 * TanStack Query
-
 * Node.js / Express
-
 * PostgreSQL
-
 * JWT
-
 * bcrypt
-
 * Zod
-
 * Tailwind CSS
 
 ## Getting Started
