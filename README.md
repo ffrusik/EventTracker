@@ -51,8 +51,13 @@ Start the development server:
 ```bash
 cd client
 npm run dev
+
+**new terminal**
 cd server
 npm run dev
+
+**new terminal**
+cd server
 npm run worker
 ```
 
