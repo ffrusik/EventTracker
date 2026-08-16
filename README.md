@@ -1,6 +1,6 @@
 # Event Notification App
 
-A full-stack event subscription app built with **React, Node.js, Express, and PostgreSQL**.
+A full-stack event monitoring platform built with **React, Node.js, Express, and PostgreSQL**. It aggregates RSS feeds, detects new relevant content, and automatically matches it against user-defined events to deliver timely updates.
 
 ## Features
 
@@ -45,6 +45,7 @@ cd client
 npm run dev
 cd server
 npm run dev
+npm run worker
 ```
 
 ## Authentication
