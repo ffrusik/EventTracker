@@ -34,7 +34,7 @@ export async function getEvents(req, res) {
   const userId = req.userId;
 
   pool.query(
-    "SELECT * FROM events WHERE user_id = $1",
+    "SELECT * FROM events WHERE user_id = $1 ORDER BY created_at DESC",
     [userId],
     (err, result) => {
       if (err) {
@@ -50,7 +50,7 @@ export async function getEventInfo(req, res) {
   const eventId = req.params.id;
 
   pool.query(
-    "SELECT * FROM events_info WHERE event_id = $1",
+    "SELECT * FROM events_info WHERE event_id = $1 ORDER BY created_at DESC",
     [eventId],
     (err, result) => {
       if (err) {
