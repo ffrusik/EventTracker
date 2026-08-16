@@ -36,17 +36,29 @@ export default function EventInfo({ refDialog, event }) {
           <li>Loading...</li>
         ) : isError ? (
           <li>Error loading event info. {error.message}</li>
-        ) : data.event.length === 0 ? (
+        ) : data.length === 0 ? (
           <li className="mb-2">
             You subscribed to this event <br />
             Date: {new Date(event.created_at).toLocaleString()}
           </li>
         ) : (
           <>
-            {data.event.map((info) => (
+            {data.map((info) => (
               <li className="mb-2" key={info.id}>
-                {info.description} <br />
-                Date: {new Date(info.date).toLocaleString()}
+                {info.title} <br />
+                {info.info} <br />
+                Source: "{info.source}" <br />
+                URL:{" "}
+                <a
+                  className="text-blue-500 hover:underline"
+                  href={info.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {info.url}
+                </a>{" "}
+                <br />
+                Date: {new Date(info.created_at).toLocaleString()}
               </li>
             ))}
             <li className="mb-2">

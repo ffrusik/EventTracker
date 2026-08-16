@@ -59,7 +59,7 @@ export async function getEventInfo(req, res) {
 
       // if (result.rows.length === 0) {
       //   return res
-      //     .status(401)
+      //     .status(404)
       //     .json({ message: "Event not found", event: result.rows });
       // }
 

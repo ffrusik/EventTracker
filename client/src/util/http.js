@@ -31,13 +31,23 @@ export async function getEvents() {
 }
 
 export async function getEventInfo(eventId) {
-  return await fetch(`/api/events/${eventId}`, {
+  const response = await fetch(`/api/events/${eventId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-  }).then((res) => res.json());
+  });
+
+  if (!response.ok) {
+    const error = new Error("Failed to fetch event info");
+    error.code = response.status;
+    throw error;
+  }
+
+  const { event } = await response.json();
+
+  return event;
 }
 
 export async function deleteEvent(eventId) {

@@ -15,6 +15,7 @@ CREATE TABLE events (
 CREATE TABLE events_info (
     id SERIAL PRIMARY KEY,
     event_id INTEGER NOT NULL REFERENCES events(id) ON DELETE CASCADE,
+    title VARCHAR(255) NOT NULL,
     info TEXT NOT NULL,
     source VARCHAR(255) NOT NULL,
     url TEXT NOT NULL,
