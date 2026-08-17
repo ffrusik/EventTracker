@@ -1,16 +1,19 @@
 # Event Notification App
 
-A full-stack event subscription app built with **React, Node.js, Express, and PostgreSQL**.
+A full-stack event monitoring platform built with **React, Node.js, Express, and PostgreSQL**. It aggregates RSS feeds, detects new relevant content, and automatically matches it against user-defined events to deliver timely updates.
 
 ## Features
 
 * User registration and login
-* JWT authentication
+* JWT-based authentication
 * Protected routes
-* Password hashing with bcrypt
+* Secure password hashing with bcrypt
 * Input validation with Zod
-* Create events
-* PostgreSQL database
+* Create and manage events
+* RSS feed aggregation
+* Automatic detection of new content
+* Matching new content against user-defined events
+* PostgreSQL data persistence
 
 ## Tech Stack
 
@@ -34,8 +37,13 @@ npm i
 Create a `.env` file:
 
 ```env
-DATABASE_URL=your_database_url
-JWT_SECRET=your_secret
+DB_HOST=localhost
+DB_PORT=your_db_port
+DB_NAME=your_db_name
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+
+JWT_SECRET=your_jwt_secret
 ```
 
 Start the development server:
@@ -43,8 +51,14 @@ Start the development server:
 ```bash
 cd client
 npm run dev
+
+**new terminal**
 cd server
 npm run dev
+
+**new terminal**
+cd server
+npm run worker
 ```
 
 ## Authentication
