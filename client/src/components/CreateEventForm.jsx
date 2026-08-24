@@ -1,8 +1,13 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import z from "zod";
 
-import { createEvent } from "../util/http";
+import { createEvent, getCategories } from "../util/http";
+import buildCategoryTree from "../util/buildCategoryTree";
+
+import Label from "./Label";
+import Input from "./Input";
+import CategorySelector from "./CategorySelector";
 
 // Define Zod schemas for validation
 const eventSchema = z.object({
@@ -11,8 +16,15 @@ const eventSchema = z.object({
 
 export default function CreateEventForm({ refDialog }) {
   const [errors, setErrors] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const queryClient = useQueryClient();
+
+  const { data: allCategories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
+  console.log(allCategories);
 
   const mutation = useMutation({
     mutationFn: createEvent,
@@ -33,13 +45,16 @@ export default function CreateEventForm({ refDialog }) {
       return;
     }
 
-    mutation.mutate(result.data.name, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["events"] });
+    mutation.mutate(
+      { eventName: result.data.name, categories: selectedCategories },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["events"] });
 
-        refDialog.current.close();
+          refDialog.current.close();
+        },
       },
-    });
+    );
   }
 
   return (
@@ -47,18 +62,13 @@ export default function CreateEventForm({ refDialog }) {
       <h2 className="text-xl font-bold mb-2">Create Event</h2>
       <form action={createEventAction}>
         <div className="mb-2">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="name"
-          >
-            Event Name
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Event Name"
+          <Label htmlFor="name">Event Name</Label>
+          <Input id="name" name="name" type="text" placeholder="Event Name" />
+          <Label className="mt-2">Categories</Label>
+          <CategorySelector
+            categories={buildCategoryTree(allCategories || [])}
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
           />
         </div>
         <div className="flex items-center justify-between">

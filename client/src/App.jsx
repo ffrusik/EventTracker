@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Events from "./pages/Events";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import ErrorPage from "./pages/ErrorPage";
 
 import { tokenLoader, checkAuthLoader } from "./util/auth";
 
@@ -17,6 +18,14 @@ const router = createBrowserRouter([
     element: <Root />,
     id: "root",
     loader: tokenLoader,
+    errorElement: (
+      <ErrorPage
+        error={{
+          status: 404,
+          message: "The page you are looking for does not exist.",
+        }}
+      />
+    ),
     children: [
       {
         index: true,

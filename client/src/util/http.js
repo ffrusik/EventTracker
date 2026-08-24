@@ -1,11 +1,11 @@
-export async function createEvent(eventName) {
+export async function createEvent({ eventName, categories }) {
   const response = await fetch("/api/events", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-    body: JSON.stringify({ name: eventName }),
+    body: JSON.stringify({ name: eventName, categories }),
   });
 
   if (!response.ok) {
@@ -58,6 +58,25 @@ export async function deleteEvent(eventId) {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   }).then((res) => res.json());
+}
+
+export async function getCategories() {
+  const response = await fetch("/api/categories", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error("Failed to fetch categories");
+    error.code = response.status;
+    throw error;
+  }
+
+  // [{"id":1,"name":"General","parent_id":null},{"id":2,"name":"BBC News","parent_id":1}]
+
+  return response.json();
 }
 
 export async function signUp({ email, password, confirmPassword }) {

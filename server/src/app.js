@@ -1,7 +1,9 @@
 import "dotenv/config";
 import express from "express";
+
 import authRoutes from "./routes/authRoutes.js";
 import eventsRoutes from "./routes/eventsRoutes.js";
+import categoriesRoutes from "./routes/categoriesRoutes.js";
 
 const app = express();
 
@@ -22,6 +24,7 @@ app.use((req, res, next) => {
 
 app.use("/api", authRoutes);
 app.use("/api", eventsRoutes);
+app.use("/api", categoriesRoutes);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

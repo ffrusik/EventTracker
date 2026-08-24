@@ -23,16 +23,16 @@ const loginSchema = credentialsSchema;
 export async function login(req, res) {
   const { email, password } = req.body;
 
-  const result = loginSchema.safeParse({ email, password });
+  const validatedData = loginSchema.safeParse({ email, password });
 
-  if (!result.success) {
-    return res.status(400).json(result.error);
+  if (!validatedData.success) {
+    return res.status(400).json(validatedData.error);
   }
 
-  pool.query("SELECT * FROM users WHERE email = $1", [email], (err, result) => {
-    if (err) {
-      return res.status(500).json({ message: "Database error" });
-    }
+  try {
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "User not found" });
@@ -53,20 +53,23 @@ export async function login(req, res) {
       });
       res.json({ token });
     });
-  });
+  } catch (err) {
+    console.error("DATABASE ERROR:", err);
+    return res.status(500).json({ message: "Database error" });
+  }
 }
 
 export async function register(req, res) {
   const { email, password, confirmPassword } = req.body;
 
-  const result = registerSchema.safeParse({
+  const validatedData = registerSchema.safeParse({
     email,
     password,
     confirmPassword,
   });
 
-  if (!result.success) {
-    return res.status(400).json(result.error);
+  if (!validatedData.success) {
+    return res.status(400).json(validatedData.error);
   }
 
   try {
@@ -98,19 +101,19 @@ export async function register(req, res) {
 export async function me(req, res) {
   const userId = req.userId;
 
-  pool.query(
-    "SELECT id, email FROM users WHERE id = $1",
-    [userId],
-    (err, result) => {
-      if (err) {
-        return res.status(500).json({ message: "Database error" });
-      }
+  try {
+    const result = await pool.query(
+      "SELECT id, email FROM users WHERE id = $1",
+      [userId],
+    );
 
-      if (result.rows.length === 0) {
-        return res.status(401).json({ message: "User not found" });
-      }
+    if (result.rows.length === 0) {
+      return res.status(401).json({ message: "User not found" });
+    }
 
-      res.json(result.rows[0]);
-    },
-  );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("DATABASE ERROR:", err);
+    res.status(500).json({ message: "Database error" });
+  }
 }

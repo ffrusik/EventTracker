@@ -1,5 +1,4 @@
 import express from "express";
-import pg from "pg";
 
 import { login, register, me } from "../controllers/authController.js";
 import { authenticateToken } from "../middleware/authMiddleware.js";
