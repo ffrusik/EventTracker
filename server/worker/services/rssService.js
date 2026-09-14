@@ -1,15 +1,13 @@
 import Parser from "rss-parser";
 
-import { feeds } from "../../util/feeds.js";
-
 const parser = new Parser();
 
-export async function getRssItems() {
+export async function getRssItems(sources) {
   const results = [];
 
-  for (const feed of feeds) {
-    console.log("Parsing feed: ", feed.url);
-    const rss = await parser.parseURL(feed.url);
+  for (const source of sources) {
+    console.log("Parsing feed: ", source.url);
+    const rss = await parser.parseURL(source.url);
 
     for (const item of rss.items) {
       results.push({
@@ -18,6 +16,7 @@ export async function getRssItems() {
         content: item.content || item.summary || item.contentSnippet,
         url: item.link,
         pubDate: item.pubDate,
+        sourceId: source.id,
         source: feed.source,
       });
     }

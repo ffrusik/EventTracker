@@ -1,8 +1,7 @@
-import pool from "../../db/index.js";
 import { getRssItems } from "./rssService.js";
 
-export async function search(query) {
-  const items = await getRssItems();
+export async function search(query, sources) {
+  const items = await getRssItems(sources);
 
   return items.filter(
     (item) =>

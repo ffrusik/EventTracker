@@ -14,8 +14,8 @@ export async function processEvents(event) {
 
     await saveEventInfo({
       eventId: event.id,
+      sourceId: result.sourceId,
       info: result.info,
-      source: result.source,
       url: result.url,
       title: result.title,
     });
