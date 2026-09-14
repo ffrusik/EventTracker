@@ -17,7 +17,7 @@ export async function getRssItems(sources) {
         url: item.link,
         pubDate: item.pubDate,
         sourceId: source.id,
-        source: feed.source,
+        source: source.name,
       });
     }
   }

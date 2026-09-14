@@ -5,8 +5,8 @@ export async function getEvents() {
     SELECT
       e.id,
       e.query,
-      JSON_AGG(
-        JSON_BUILD_OBJECT(
+      JSON_AGG( 
+        DISTINCT JSON_BUILD_OBJECT(
           'id', s.id,
           'name', s.name,
           'type', s.type,
