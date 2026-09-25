@@ -1,5 +1,7 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export async function createEvent({ eventName, categories }) {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
+  const response = await fetch(`${API_URL}/api/events`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -21,7 +23,7 @@ export async function createEvent({ eventName, categories }) {
 }
 
 export async function getEvents() {
-  return await fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
+  return await fetch(`${API_URL}/api/events`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -31,16 +33,13 @@ export async function getEvents() {
 }
 
 export async function getEventInfo(eventId) {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/api/events/${eventId}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
+  const response = await fetch(`${API_URL}/api/events/${eventId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-  );
+  });
 
   if (!response.ok) {
     const error = new Error("Failed to fetch event info");
@@ -54,7 +53,7 @@ export async function getEventInfo(eventId) {
 }
 
 export async function deleteEvent(eventId) {
-  return await fetch(`${import.meta.env.VITE_API_URL}/api/events/${eventId}`, {
+  return await fetch(`${API_URL}/api/events/${eventId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -64,15 +63,12 @@ export async function deleteEvent(eventId) {
 }
 
 export async function getCategories() {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/api/categories`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+  const response = await fetch(`${API_URL}/api/categories`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
+  });
 
   if (!response.ok) {
     const error = new Error("Failed to fetch categories");
@@ -86,7 +82,7 @@ export async function getCategories() {
 }
 
 export async function signUp({ email, password, confirmPassword }) {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/register`, {
+  const response = await fetch(`${API_URL}/api/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -107,7 +103,7 @@ export async function signUp({ email, password, confirmPassword }) {
 }
 
 export async function login({ email, password }) {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+  const response = await fetch(`${API_URL}/api/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -128,7 +124,7 @@ export async function login({ email, password }) {
 }
 
 export async function me() {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/me`, {
+  const response = await fetch(`${API_URL}/api/me`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
