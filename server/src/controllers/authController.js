@@ -94,7 +94,7 @@ export async function register(req, res) {
     res.status(201).json({ message: "User registered successfully", userId });
   } catch (err) {
     console.error("DATABASE ERROR:", err);
-    res.status(500).json({ message: "Database error" });
+    res.status(500).json({ message: `Database error ${err}` });
   }
 }
 
