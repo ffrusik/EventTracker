@@ -27,20 +27,22 @@ export default function CategorySelector({
         return prev.filter((id) => !ids.includes(id));
       }
 
-      return [...new Set([...prev, ...ids])]; // Use Set to avoid duplicates
+      return [...new Set([...prev, ...ids])];
     });
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      {categories.map((category) => (
-        <CategoryItem
-          key={category.id}
-          category={category}
-          selectedCategories={selectedCategories}
-          onCheck={handleCategoryChange}
-        />
-      ))}
+    <div className="rounded-xl border border-gray-200 bg-gray-50 p-3">
+      <div className="space-y-2">
+        {categories.map((category) => (
+          <CategoryItem
+            key={category.id}
+            category={category}
+            selectedCategories={selectedCategories}
+            onCheck={handleCategoryChange}
+          />
+        ))}
+      </div>
     </div>
   );
 }

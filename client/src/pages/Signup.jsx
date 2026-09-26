@@ -1,11 +1,10 @@
 import z from "zod";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 
 import { signUp } from "../util/http";
 
-// Define Zod schemas for validation
 const credentialsSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(255),
@@ -54,75 +53,112 @@ export default function Signup() {
   }
 
   return (
-    <div className="flex flex-col w-4/12 p-2 mx-auto">
-      <h1 className="text-2xl font-bold mt-4 mb-4">Sign Up</h1>
-      <form
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-        action={signUpAction}
-      >
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="email"
-        >
-          Email
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 mb-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="email"
-          name="email"
-          type="text"
-          placeholder="Email"
-        />
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="password"
-        >
-          Password
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 mb-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Password"
-        />
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="confirmPassword"
-        >
-          Confirm Password
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 mb-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="confirmPassword"
-          name="confirmPassword"
-          type="password"
-          placeholder="Password"
-        />
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded"
-          type="submit"
-          disabled={mutation.isPending}
-        >
-          {mutation.isPending ? "Registering..." : "Register"}
-        </button>
-      </form>
-      {mutation.isError && (
-        <div className="mt-2">
-          <p className="text-red-500">
-            {mutation.error.info?.message || mutation.error.message}
+    <div className="min-h-[80vh] flex items-center justify-center px-4">
+      <div className="w-full max-w-md">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            Create Your Account
+          </h1>
+
+          <p className="mt-2 text-gray-500">
+            Start tracking the topics that matter to you.
           </p>
         </div>
-      )}
-      {errors.length > 0 && (
-        <div className="mt-2">
-          {errors.map((error, index) => (
-            <p key={index} className="text-red-500">
-              {error.message}
-            </p>
-          ))}
-        </div>
-      )}
+
+        <form
+          action={signUpAction}
+          className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm"
+        >
+          <div className="space-y-5">
+            <div>
+              <label
+                className="mb-2 block text-sm font-semibold text-gray-700"
+                htmlFor="email"
+              >
+                Email
+              </label>
+
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div>
+              <label
+                className="mb-2 block text-sm font-semibold text-gray-700"
+                htmlFor="password"
+              >
+                Password
+              </label>
+
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Create a password"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+
+            <div>
+              <label
+                className="mb-2 block text-sm font-semibold text-gray-700"
+                htmlFor="confirmPassword"
+              >
+                Confirm Password
+              </label>
+
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirm your password"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
+          </div>
+
+          {errors.length > 0 && (
+            <div className="mt-5 rounded-lg bg-red-50 px-4 py-3">
+              {errors.map((error, index) => (
+                <p key={index} className="text-sm text-red-600">
+                  {error.message}
+                </p>
+              ))}
+            </div>
+          )}
+
+          {mutation.isError && (
+            <div className="mt-5 rounded-lg bg-red-50 px-4 py-3">
+              <p className="text-sm text-red-600">
+                {mutation.error.info?.message || mutation.error.message}
+              </p>
+            </div>
+          )}
+
+          <button
+            className="mt-6 w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+            type="submit"
+            disabled={mutation.isPending}
+          >
+            {mutation.isPending ? "Creating account..." : "Create Account"}
+          </button>
+        </form>
+
+        <p className="mt-6 text-center text-sm text-gray-500">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="font-semibold text-blue-600 hover:text-blue-700"
+          >
+            Sign in
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
